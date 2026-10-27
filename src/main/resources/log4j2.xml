@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+
+    <!-- 1. Define the dynamic timestamp pattern at the top -->
+    <Properties>
+        <Property name="logFilename">logs/execution_${date:yyyyMMdd_HHmmss}.log</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="CONSOLE">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- 2. Use the property variable here in the fileName attribute -->
+        <File name="TIMESTAMP_FILE" fileName="${logFilename}" append="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <!-- The Root logger catches EVERYTHING running in your project framework -->
+        <Root level="INFO">
+            <!-- This streams everything live to your IDE console screen -->
+            <AppenderRef ref="CONSOLE"/>
+
+            <!-- This forces all logs from ALL packages straight into your timestamped file -->
+            <AppenderRef ref="TIMESTAMP_FILE"/>
+        </Root>
+    </Loggers>
+</Configuration>

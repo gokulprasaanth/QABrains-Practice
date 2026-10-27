@@ -1,5 +1,6 @@
 package base;
 
+import Utils.Log;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
@@ -13,6 +14,7 @@ public class BaseTest {
     public void setup() {
         driver = new FirefoxDriver();
         driver.manage().window().maximize();
+        Log.info("Launching chrome browser instance");
         driver.get("https://practice.qabrains.com/ecommerce/login");
     }
 
