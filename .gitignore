@@ -37,4 +37,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+# Exclude logs
 /logs/
+#Exclude Extent Reports
+/reports/

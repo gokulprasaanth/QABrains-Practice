@@ -20,7 +20,7 @@ public class LoginPage {
 
     private final By usernameTextBox = By.id("email");
     private final By passwordTextBox = By.id("password");
-    private final By loginButton = By.xpath("/html/body/div[2]/div/div/div/form/button");
+    private final By loginButton = By.cssSelector("button.btn-submit[type='submit']");
 
     //Constructor
     public LoginPage(WebDriver driver) {
@@ -48,7 +48,7 @@ public class LoginPage {
     }
 
     public void clickLoginButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(loginButton));
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 
 }
