@@ -30,10 +30,11 @@ public class LoginTest extends BaseTest {
         test.info("Navigated to login page");
         verifyCheckpoint("ValidLogin_Landing", "Initial login landing view captured.");
         Log.info("Entering credentials");
-        loginPage.setUsernameTextBox("test@qabrains.com");
+        loginPage.setEmailTextBox("test@qabrains.com");
         loginPage.setPassword("Password123");
         loginPage.clickLoginButton();
         test.info("Entered credentials and clicking on login button");
+        wait.until(ExpectedConditions.urlToBe("https://practice.qabrains.com/ecommerce"));
         String expectedURL = "https://practice.qabrains.com/ecommerce";
         String actualURL = driver.getCurrentUrl();
         WebElement productHeader = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3.font-oswald")));
@@ -59,13 +60,14 @@ public class LoginTest extends BaseTest {
         test.info("Navigated to login page");
         verifyCheckpoint("InvalidLogin_Landing", "Initial invalid login landing state captured.");
         Log.info("Entering credentials");
-        loginPage.setUsernameTextBox("test@qabrains.com");
+        loginPage.setEmailTextBox("test@qabrains.com");
         loginPage.setPassword("P");
         loginPage.clickLoginButton();
         test.info("Entered credentials and clicking on login button");
         String expectedURL = "https://practice.qabrains.com/ecommerce";
         String actualURL = driver.getCurrentUrl();
         verifyCheckpoint("InvalidLogin_AlertState", "Login validation system response view captured.");
+
         Assert.assertEquals(actualURL, expectedURL, "URL isn't matching!");
         test.fail("Login failed... Please try again with valid credentials or sign up if you're new to the website");
     }
