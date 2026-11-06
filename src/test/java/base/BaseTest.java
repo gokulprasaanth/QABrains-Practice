@@ -51,7 +51,7 @@ public class BaseTest {
             if (screenshotPath != null) {
                 test.fail("Test failed! Check the crash state screenshot",
                         MediaEntityBuilder.createScreenCaptureFromPath("../" + screenshotPath).build());
-                test.fail(result.getThrowable().getMessage());
+                test.fail(result.getThrowable());
             }
         }
 

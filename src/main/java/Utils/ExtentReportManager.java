@@ -77,7 +77,7 @@ public class ExtentReportManager {
 
         try {
             File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(src, new File(path));
+            FileUtils.copyFile(src, new File(path)); //Added
             return path;
 
         } catch (Exception e) {
