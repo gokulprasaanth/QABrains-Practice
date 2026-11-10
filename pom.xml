@@ -7,7 +7,7 @@
     <groupId>org.example</groupId>
     <artifactId>Sel-1st-Project-Login</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <modules>
         <module>testdata</module>
     </modules>
