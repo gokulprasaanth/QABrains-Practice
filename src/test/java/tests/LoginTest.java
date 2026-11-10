@@ -23,20 +23,29 @@ public class LoginTest extends BaseTest {
     private static WebDriverWait wait;
 
     @DataProvider(name = "loginData")
-    public Object[][] loginData() throws Exception{
+    public Object[][] loginData() throws Exception {
         String filePath = System.getProperty("user.dir") + "/testdata/QAPractice-Testdata.xlsx";
         ExcelUtils.loadExcel(filePath, "QAPractice-Testdata");
         int rowCount = ExcelUtils.getRowCount();
-        Object [][] data =  new Object[rowCount-1][2];
+        Object[][] data = new Object[rowCount - 1][2];
         for (int i = 1; i < rowCount; i++) { //Index position 0 corresponds to Header row, so we start from i=1
-            data [i-1][0] = ExcelUtils.getCellData(i, 0); //email Worksheet row 1 → data[0]
-            data [i-1][1] = ExcelUtils.getCellData(i, 1); //password
+            data[i - 1][0] = ExcelUtils.getCellData(i, 0); //email Worksheet row 1 → data[0]
+            data[i - 1][1] = ExcelUtils.getCellData(i, 1); //password
         }
         ExcelUtils.closeExcel();
         return data;
     }
 
-    @Test(priority = 1, dataProvider = "loginData")
+    @DataProvider(name = "approvedLoginData")
+    public Object[][] approvedLoginData() throws Exception {
+        return new Object[][]{
+                {"admin", "admin"},
+                {"dbaadmin", "dbaadmin"},
+                {"bizadmin", "bizadmin"}
+        };
+    }
+
+    @Test(priority = 1, dataProvider = "approvedLoginData")
     //Marks a method as an executable test. TestNG runs the @BeforeMethod before this test, and the @AfterMethod right after this test.
     public void validLoginTest(String email, String password) throws InterruptedException {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
