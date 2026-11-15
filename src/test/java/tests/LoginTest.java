@@ -36,16 +36,16 @@ public class LoginTest extends BaseTest {
         return data;
     }
 
-    @DataProvider(name = "approvedLoginData")
-    public Object[][] approvedLoginData() throws Exception {
-        return new Object[][]{
-                {"admin", "admin"},
-                {"dbaadmin", "dbaadmin"},
-                {"bizadmin", "bizadmin"}
-        };
-    }
+//    @DataProvider(name = "approvedLoginData")
+//    public Object[][] approvedLoginData() throws Exception {
+//        return new Object[][]{
+//                {"admin", "admin"},
+//                {"dbaadmin", "dbaadmin"},
+//                {"bizadmin", "bizadmin"}
+//        };
+//    }
 
-    @Test(priority = 1, dataProvider = "approvedLoginData")
+    @Test(priority = 1, dataProvider = "loginData")
     //Marks a method as an executable test. TestNG runs the @BeforeMethod before this test, and the @AfterMethod right after this test.
     public void validLoginTest(String email, String password) throws InterruptedException {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));

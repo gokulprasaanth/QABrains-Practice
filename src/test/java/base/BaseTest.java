@@ -1,5 +1,6 @@
 package base;
 
+import Utils.EmailUtils;
 import Utils.ExtentReportManager;
 import Utils.Log;
 import com.aventstack.extentreports.ExtentReports;
@@ -32,6 +33,8 @@ public class BaseTest {
     @AfterSuite
     public void teardownReport() {
         extent.flush();
+        String reportPath = ExtentReportManager.reportFileName;
+        EmailUtils.sendEmail(reportPath);
     }
 
     @BeforeMethod // This annotated method will run before each test method.

@@ -21,6 +21,7 @@ public class ExtentReportManager {
     // One active test tracker (test) shared across all test scripts.
     public static ExtentTest test;
     private static String runFolderPath = null;
+    public static String reportFileName;
 
     public static ExtentReports getReportInstance() {
         // #1 test execution - extent == null; #2, #3,... extent won't be null - existing report is passed back
@@ -28,7 +29,7 @@ public class ExtentReportManager {
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 
             // File(s) will be stored inside reports folder.
-            String reportFileName = "reports/ExtentReport_" + timeStamp + ".html";
+            reportFileName = "reports/ExtentReport_" + timeStamp + ".html";
 
             // Opens a new plain HTML file in the specified location with said file name.
             ExtentSparkReporter reporter = new ExtentSparkReporter(reportFileName);
