@@ -1,6 +1,6 @@
 package mail;
 
-import Utils.Log;
+import utils.Log;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;

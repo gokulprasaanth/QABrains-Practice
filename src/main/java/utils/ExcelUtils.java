@@ -1,4 +1,4 @@
-package Utils;
+package utils;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -41,6 +41,10 @@ public class ExcelUtils {
 
     public static int getRowCount() {
         return sheet.getPhysicalNumberOfRows();
+    }
+
+    public static int getColumnCount() {
+        return sheet.getRow(0).getPhysicalNumberOfCells();
     }
 
     public static void closeExcel() throws IOException {

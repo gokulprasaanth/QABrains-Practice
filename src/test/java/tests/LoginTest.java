@@ -1,8 +1,8 @@
 package tests;
 
-import Utils.ExcelUtils;
-import Utils.ExtentReportManager;
-import Utils.Log;
+import utils.ExcelUtils;
+import utils.ExtentReportManager;
+import utils.Log;
 import base.BaseTest;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
@@ -16,22 +16,42 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginTest extends BaseTest {
 
     protected ExtentTest test;
     private static WebDriverWait wait;
 
-    @DataProvider(name = "loginData")
+    //indices = {2} → Runs 3nd data row (Excel Row 4 where valid credentials are stored)
+    @DataProvider(name = "loginData", indices = {2})
     public Object[][] loginData() throws Exception {
         String filePath = System.getProperty("user.dir") + "/testdata/QAPractice-Testdata.xlsx";
         ExcelUtils.loadExcel(filePath, "QAPractice-Testdata");
         int rowCount = ExcelUtils.getRowCount();
-        Object[][] data = new Object[rowCount - 1][2];
-        for (int i = 1; i < rowCount; i++) { //Index position 0 corresponds to Header row, so we start from i=1
-            data[i - 1][0] = ExcelUtils.getCellData(i, 0); //email Worksheet row 1 → data[0]
-            data[i - 1][1] = ExcelUtils.getCellData(i, 1); //password
+        int  columnCount = ExcelUtils.getColumnCount(); // Total columns in header row (row 0)
+
+        Object[][] data = new Object[rowCount-1][1];
+
+        for (int i = 1; i < rowCount; i++) {
+            Map<String, String> rowMap = new HashMap<>();
+            for  (int j = 0; j < columnCount; j++) {
+                String header = ExcelUtils.getCellData(0, j); // Row 0 = Column Heade
+                String value = ExcelUtils.getCellData(i, j); // Row i = Test Data
+                rowMap.put(header, value);
+            }
+            //Packs the entire row's Map into 1 slot ([0]) for test run [i - 1], passing all columns as a single parameter to @Test
+            //IOW, first bracket controls which test run and second bracket controls which parameter
+            data[i-1][0] = rowMap;
         }
+
+        // Not a good approach - column value is hardcoded
+//        Object[][] data = new Object[rowCount - 1][2];
+//        for (int i = 1; i < rowCount; i++) { //Index position 0 corresponds to Header row, so we start from i=1
+//            data[i - 1][0] = ExcelUtils.getCellData(i, 0); //email.    Worksheet row 1 → data[0]
+//            data[i - 1][1] = ExcelUtils.getCellData(i, 1); //password
+//        }
         ExcelUtils.closeExcel();
         return data;
     }
@@ -47,7 +67,7 @@ public class LoginTest extends BaseTest {
 
     @Test(priority = 1, dataProvider = "loginData")
     //Marks a method as an executable test. TestNG runs the @BeforeMethod before this test, and the @AfterMethod right after this test.
-    public void validLoginTest(String email, String password) throws InterruptedException {
+    public void validLoginTest(Map<String, String> testData) throws InterruptedException {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         Log.info("Starting login test");
         test = ExtentReportManager.createTest("Login Test with Valid Credentials");
@@ -57,6 +77,8 @@ public class LoginTest extends BaseTest {
         Log.info("Entering credentials");
 //        loginPage.setEmailTextBox("test@qabrains.com");
 //        loginPage.setPassword("Password123");
+        String email = testData.get("Email");
+        String password = testData.get("Password");
         loginPage.setEmailTextBox(email);
         loginPage.setPassword(password);
         loginPage.clickLoginButton();

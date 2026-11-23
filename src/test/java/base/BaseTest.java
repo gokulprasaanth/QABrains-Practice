@@ -1,23 +1,19 @@
 package base;
 
-import Utils.EmailUtils;
-import Utils.ExtentReportManager;
-import Utils.Log;
+import utils.EmailUtils;
+import utils.ExtentReportManager;
+import utils.Log;
 import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
-import java.io.File;
-
-import static Utils.ExtentReportManager.test;
+import static utils.ExtentReportManager.test;
 
 public class BaseTest {
 

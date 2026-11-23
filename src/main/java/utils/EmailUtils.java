@@ -1,4 +1,5 @@
-package Utils;
+package utils;
+import utils.Log;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
@@ -15,9 +16,20 @@ public class EmailUtils {
 
     public static void sendEmail(String reportPath) {
 
-        final String senderEmailID = "qualiashtester@gmail.com";
-        final String appPassword = "etxeqjggynixvkon";
-        final String recipientEmailID = "qualiashtester@gmail.com";
+        // Option 1: Using a config.properties File (Best for Local QA Frameworks)
+//        Properties config = loadConfig();
+//        final String senderEmailID = config.getProperty("email.sender");
+//        final String appPassword = config.getProperty("email.password");
+//        final String recipientEmailID = config.getProperty("email.recipient");
+
+        // Option 2: Using Environment Variables (Best for CI/CD Pipelines)
+        final String senderEmailID = System.getenv("QA_EMAIL_SENDER");
+        final String appPassword = System.getenv("QA_EMAIL_PASSWORD");
+        final String recipientEmailID = System.getenv("QA_EMAIL_RECIPIENT");
+
+        if (senderEmailID == null || appPassword == null || recipientEmailID == null) {
+            throw new IllegalStateException("Email credentials are missing from environment variables.");
+        }
 
         //Set SMTP server properties
         Properties props = new Properties();
@@ -31,7 +43,8 @@ public class EmailUtils {
                 return new PasswordAuthentication(senderEmailID, appPassword);
             }
         });
-        session.setDebug(true);
+        //SMTP connection is working fine, so set value to false
+        session.setDebug(false);
 
         //Compose Email & Send
         try {
@@ -52,9 +65,7 @@ public class EmailUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         //Add attachment (test report)
-
     }
 
     private static @NonNull MimeMultipart getMimeMultipart(String reportPath) throws MessagingException, IOException {
@@ -72,4 +83,19 @@ public class EmailUtils {
         return multipart;
     }
 
+//    private static Properties loadConfig() {
+//        Properties config = new Properties();
+//        File configFile = new File("src/main/resources/config.properties");
+//
+//        if (!configFile.exists()) {
+//            throw new RuntimeException("File does not exist at: " + configFile.getAbsolutePath());
+//        }
+//
+//        try (InputStream input = new FileInputStream(configFile)) {
+//            config.load(input);
+//        } catch (IOException e) {
+//            throw new RuntimeException("Failed to read config.properties", e);
+//        }
+//        return config;
+//    }
 }

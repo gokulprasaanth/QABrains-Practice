@@ -1,9 +1,21 @@
-package Utils;
+package utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
+
+import java.io.File;
 
 public class Log {
+
+    static {
+        File logConfig = new File("src/main/resources/log4j2.xml");
+        if (logConfig.exists()) {
+            Configurator.initialize(null, logConfig.getAbsolutePath());
+        } else {
+            System.err.println("Could not find log4j2.xml at: " + logConfig.getAbsolutePath());
+        }
+    }
 
     // Initialize the Log4j core engine to stamp this specific class name to messages
     private static final Logger logger = LogManager.getLogger(Log.class);

@@ -41,3 +41,5 @@ build/
 /logs/
 #Exclude Extent Reports
 /reports/
+# Exclude uploading credentials to version control
+config.properties
